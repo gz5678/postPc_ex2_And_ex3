@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
 
-  private List<String> history = Collections.singletonList("0");
+  private ArrayList<String> history = new ArrayList<>(Collections.singletonList("0"));
   private final List<String> ORDERS = Arrays.asList("+", "-");
 
   @Override
@@ -47,8 +47,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   @Override
   public void insertEquals() {
-    // todo: calculate the equation. after calling `insertEquals()`, the output should be the result
-    //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
     StringBuilder currentNumber = new StringBuilder();
     int calc = 0;
     String operator = "+";
@@ -79,11 +77,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
 
   @Override
   public void deleteLast() {
-    // todo: delete the last input (digit, plus or minus)
-    //  e.g.
-    //  if input was "12+3" and called `deleteLast()`, then delete the "3"
-    //  if input was "12+" and called `deleteLast()`, then delete the "+"
-    //  if no input was given, then there is nothing to do here
     if(!history.isEmpty()) {
       history.remove(history.size() - 1);
       if (history.isEmpty()) {
