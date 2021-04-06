@@ -1,36 +1,78 @@
 package android.exercise.mini.calculator.app;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
 
-  // todo: add fields as needed
+  private List<String> history = new ArrayList<>();
+  private final List<String> ORDERS = Arrays.asList("+", "-");
 
   @Override
   public String output() {
-    // todo: return output based on the current state
-    return "implement me please";
+    StringBuilder sb = new StringBuilder();
+    for(String s: history) {
+      sb.append(s);
+    }
+    return sb.toString();
   }
 
   @Override
   public void insertDigit(int digit) {
-    // todo: insert a digit
+    if(digit < 0 || digit > 9) {
+      throw new IllegalArgumentException("Digit needs to be from 0-9");
+    }
+    history.add(String.valueOf(digit));
   }
 
   @Override
   public void insertPlus() {
-    // todo: insert a plus
+    if(!history.isEmpty() && !ORDERS.contains(history.get(history.size() - 1))) {
+      history.add("+");
+    }
   }
 
   @Override
   public void insertMinus() {
-    // todo: insert a minus
+    if(!history.isEmpty() && !ORDERS.contains(history.get(history.size() - 1))) {
+      history.add("-");
+    }
   }
 
   @Override
   public void insertEquals() {
     // todo: calculate the equation. after calling `insertEquals()`, the output should be the result
     //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
+    StringBuilder currentNumber = new StringBuilder();
+    int calc = 0;
+    String operator = "+";
+    for(String s: history) {
+      // Build the number until an order is found
+      if(!ORDERS.contains(s)) {
+        currentNumber.append(s);
+      }
+      else {
+        int parsedNumberString = Integer.parseInt(currentNumber.toString());
+        // First, we do the last operation we found since now we know the 2 numbers
+        switch(operator) {
+          case "-":
+            calc -= parsedNumberString;
+            break;
+          case "+":
+            calc += parsedNumberString;
+            break;
+        }
+        // We save the operator
+        operator = s;
+      }
+    }
+    // Clear history and insert the calculated expression
+    history.clear();
+    history.add(String.valueOf(calc));
   }
 
   @Override
@@ -40,6 +82,9 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     //  if input was "12+3" and called `deleteLast()`, then delete the "3"
     //  if input was "12+" and called `deleteLast()`, then delete the "+"
     //  if no input was given, then there is nothing to do here
+    if(!history.isEmpty()) {
+      history.remove(history.size() - 1);
+    }
   }
 
   @Override
