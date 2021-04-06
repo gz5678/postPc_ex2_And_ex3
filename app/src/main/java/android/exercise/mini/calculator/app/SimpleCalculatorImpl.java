@@ -1,15 +1,14 @@
 package android.exercise.mini.calculator.app;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
 
-  private List<String> history = new ArrayList<>();
+  private List<String> history = Collections.singletonList("0");
   private final List<String> ORDERS = Arrays.asList("+", "-");
 
   @Override
@@ -25,6 +24,9 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
   public void insertDigit(int digit) {
     if(digit < 0 || digit > 9) {
       throw new IllegalArgumentException("Digit needs to be from 0-9");
+    }
+    else if(history.size() == 1 && history.get(0).equals("0")) {
+      history.remove(0);
     }
     history.add(String.valueOf(digit));
   }
@@ -84,12 +86,16 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     //  if no input was given, then there is nothing to do here
     if(!history.isEmpty()) {
       history.remove(history.size() - 1);
+      if (history.isEmpty()) {
+        history.add("0");
+      }
     }
   }
 
   @Override
   public void clear() {
-    // todo: clear everything (same as no-input was never given)
+    history.clear();
+    history.add("0");
   }
 
   @Override
