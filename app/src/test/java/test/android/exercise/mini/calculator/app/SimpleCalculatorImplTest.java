@@ -98,13 +98,7 @@ public class SimpleCalculatorImplTest {
   //  the existing tests are not enough since they only test simple use-cases with small inputs.
   //  write at least 10 methods to test correct behavior with complicated inputs or use-cases.
   //  examples:
-  //  - given input "5+7-13<DeleteLast>25", expected output is "5+17-125"
-  //  - given input "9<Clear>12<Clear>8-7=", expected output is "1"
-  //  - given input "8-7=+4=-1=", expected output is "4"
-  //  - given input "999-888-222=-333", expected output is "-111-333"
   //  - with 2 calculators, give them different inputs, then save state on first calculator and load the state into second calculator, make sure state loaded well
-  //  etc etc.
-  //  feel free to be creative in your tests!
   @Test
   public void when_insertingTwoPluses_then_outputShouldOnlyHaveOne(){
     SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
@@ -225,5 +219,29 @@ public class SimpleCalculatorImplTest {
     assertEquals(expected, calculatorUnderTest.output());
   }
 
+  @Test
+  public void when_startingWithMinus_then_calcShouldWork(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertEquals();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertEquals();
+    String expected = "-2";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
 
+  @Test
+  public void when_startingWithPlus_then_calcShouldWork(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertEquals();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertEquals();
+    String expected = "8";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
 }
