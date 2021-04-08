@@ -109,11 +109,6 @@ public class SimpleCalculatorImplTest {
     assertEquals("5+7", secondCalculator.output());
   }
 
-  // TODO:
-  //  the existing tests are not enough since they only test simple use-cases with small inputs.
-  //  write at least 10 methods to test correct behavior with complicated inputs or use-cases.
-  //  examples:
-  //  - with 2 calculators, give them different inputs, then save state on first calculator and load the state into second calculator, make sure state loaded well
   @Test
   public void when_insertingTwoPluses_then_outputShouldOnlyHaveOne(){
     SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
@@ -286,5 +281,28 @@ public class SimpleCalculatorImplTest {
     // load the saved state in the second calculator and make sure state was loaded correctly
     secondCalculator.loadState(savedState);
     assertEquals("5+7", secondCalculator.output());
+  }
+
+  @Test
+  public void when_doubleLoadingOfState_should_workLikeOneLoad(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+
+    // give some input to first calculator
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(7);
+
+    // save current state
+    Serializable savedState = calculatorUnderTest.saveState();
+    assertNotNull(savedState);
+
+    // call `clear` and make sure calculator cleared
+    calculatorUnderTest.clear();
+    assertEquals("0", calculatorUnderTest.output());
+
+    // load the saved state twice and make sure state was loaded correctly
+    calculatorUnderTest.loadState(savedState);
+    calculatorUnderTest.loadState(savedState);
+    assertEquals("5+7", calculatorUnderTest.output());
   }
 }
