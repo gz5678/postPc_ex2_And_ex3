@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
 
-  private ArrayList<String> history = new ArrayList<>(Collections.singletonList("0"));
+  private final ArrayList<String> history = new ArrayList<>(Collections.singletonList("0"));
   private final List<String> ORDERS = Arrays.asList("+", "-");
 
   @Override
@@ -56,23 +56,35 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
         currentNumber.append(s);
       }
       else {
-        int parsedNumberString = Integer.parseInt(currentNumber.toString());
-        // First, we do the last operation we found since now we know the 2 numbers
-        switch(operator) {
-          case "-":
-            calc -= parsedNumberString;
-            break;
-          case "+":
-            calc += parsedNumberString;
-            break;
-        }
+        calc = this.newCalc(operator, calc, currentNumber);
         // We save the operator
         operator = s;
+        currentNumber.setLength(0); // Clears the string builder
       }
+    }
+    // There might still be a number in currentNumber we haven't taken care of since the last
+    // iteration won't go into the else clause.
+    if(currentNumber.length() != 0) {
+      calc = this.newCalc(operator, calc, currentNumber);
     }
     // Clear history and insert the calculated expression
     history.clear();
     history.add(String.valueOf(calc));
+  }
+
+  private int newCalc(String operator, int oldCalc, StringBuilder numberString) {
+    int parsedNumberString = Integer.parseInt(numberString.toString());
+    // We do the last operation we found since now we know the 2 numbers
+    int calc = 0;
+    switch(operator) {
+      case "-":
+        calc = oldCalc - parsedNumberString;
+        break;
+      case "+":
+        calc = oldCalc + parsedNumberString;
+        break;
+    }
+    return calc;
   }
 
   @Override

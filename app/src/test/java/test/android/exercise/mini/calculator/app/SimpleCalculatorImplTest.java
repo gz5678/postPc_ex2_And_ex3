@@ -105,4 +105,125 @@ public class SimpleCalculatorImplTest {
   //  - with 2 calculators, give them different inputs, then save state on first calculator and load the state into second calculator, make sure state loaded well
   //  etc etc.
   //  feel free to be creative in your tests!
+  @Test
+  public void when_insertingTwoPluses_then_outputShouldOnlyHaveOne(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertPlus();
+    String expected = "5+";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_insertingTwoMinuses_then_outputShouldOnlyHaveOne(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertMinus();
+    String expected = "5-";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_clearingSeveralTime_then_outputOnlyLastCalculation(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(9);
+    calculatorUnderTest.clear();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.clear();
+    calculatorUnderTest.insertDigit(8);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertEquals();
+    String expected = "1";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_deleteLast_then_onlyOneDigitShouldBeRemoved(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.deleteLast();
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertDigit(5);
+    String expected = "5+7-125";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_multipleCalculations_then_resultShouldCarryOn(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(8);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(7);
+    calculatorUnderTest.insertEquals();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(4);
+    calculatorUnderTest.insertEquals();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertEquals();
+    String expected = "4";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_bigNumbers_then_shouldWork(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(9);
+    calculatorUnderTest.insertDigit(9);
+    calculatorUnderTest.insertDigit(9);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(8);
+    calculatorUnderTest.insertDigit(8);
+    calculatorUnderTest.insertDigit(8);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertDigit(2);
+    calculatorUnderTest.insertEquals();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertDigit(3);
+    String expected = "-111-333";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_calculationIsNegative_then_calcShouldWork(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertEquals();
+    String expected = "-2";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_multipleChangesOfSign_then_calcShouldWork(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertEquals();
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertEquals();
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertEquals();
+    String expected = "-4";
+    assertEquals(expected, calculatorUnderTest.output());
+  }
+
+
 }
