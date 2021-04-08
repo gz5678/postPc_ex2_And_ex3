@@ -47,12 +47,22 @@ public class SimpleCalculatorImplTest {
 
   @Test
   public void when_callingDeleteLast_then_lastOutputShouldBeDeleted(){
-    // todo: implement test
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.deleteLast();
+    String expected = "3";
+    assertEquals(expected, calculatorUnderTest.output());
   }
 
   @Test
   public void when_callingClear_then_outputShouldBeCleared(){
-    // todo: implement test
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertDigit(3);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.clear();
+    String expected = "0";
+    assertEquals(expected, calculatorUnderTest.output());
   }
 
   @Test
