@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
 
-  private final ArrayList<String> history = new ArrayList<>(Collections.singletonList("0"));
+  private ArrayList<String> history = new ArrayList<>(Collections.singletonList("0"));
   private final List<String> ORDERS = Arrays.asList("+", "-");
 
   @Override
@@ -106,7 +106,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
   @Override
   public Serializable saveState() {
     CalculatorState state = new CalculatorState();
-    // todo: insert all data to the state, so in the future we can load from this state
+    state.setHistory(this.history);
     return state;
   }
 
@@ -116,17 +116,19 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
       return; // ignore
     }
     CalculatorState casted = (CalculatorState) prevState;
-    // todo: use the CalculatorState to load
+    this.history = casted.getHistory();
   }
 
   private static class CalculatorState implements Serializable {
-    /*
-    TODO: add fields to this class that will store the calculator state
-    all fields must only be from the types:
-    - primitives (e.g. int, boolean, etc)
-    - String
-    - ArrayList<> where the type is a primitive or a String
-    - HashMap<> where the types are primitives or a String
-     */
+
+    private ArrayList<String> history;
+
+    public void setHistory(ArrayList<String> history) {
+      this.history = new ArrayList<>(history);
+    }
+
+    public ArrayList<String> getHistory() {
+      return this.history;
+    }
   }
 }

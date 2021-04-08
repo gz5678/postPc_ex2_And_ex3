@@ -90,8 +90,23 @@ public class SimpleCalculatorImplTest {
   public void when_savingStateFromFirstCalculator_should_loadStateCorrectlyFromSecondCalculator(){
     SimpleCalculatorImpl firstCalculator = new SimpleCalculatorImpl();
     SimpleCalculatorImpl secondCalculator = new SimpleCalculatorImpl();
-    // TODO: implement the test based on this method's name.
-    //  you can get inspiration from the test method `when_savingState_should_loadThatStateCorrectly()`
+
+    // give some input
+    firstCalculator.insertDigit(5);
+    firstCalculator.insertPlus();
+    firstCalculator.insertDigit(7);
+
+    // save current state
+    Serializable savedState = firstCalculator.saveState();
+    assertNotNull(savedState);
+
+    // call `clear` and make sure calculator cleared
+    firstCalculator.clear();
+    assertEquals("0", firstCalculator.output());
+
+    // load the saved state in the second calculator and make sure state was loaded correctly
+    secondCalculator.loadState(savedState);
+    assertEquals("5+7", secondCalculator.output());
   }
 
   // TODO:
@@ -243,5 +258,33 @@ public class SimpleCalculatorImplTest {
     calculatorUnderTest.insertEquals();
     String expected = "8";
     assertEquals(expected, calculatorUnderTest.output());
+  }
+
+  @Test
+  public void when_savingStateFromFirstCalculator_should_loadStateCorrectlyFromSecondCalculatorWithData(){
+    SimpleCalculatorImpl firstCalculator = new SimpleCalculatorImpl();
+    SimpleCalculatorImpl secondCalculator = new SimpleCalculatorImpl();
+
+    // give some input to first calculator
+    firstCalculator.insertDigit(5);
+    firstCalculator.insertPlus();
+    firstCalculator.insertDigit(7);
+
+    // give some input to second calculator
+    secondCalculator.insertDigit(1);
+    secondCalculator.insertPlus();
+    secondCalculator.insertDigit(3);
+
+    // save current state
+    Serializable savedState = firstCalculator.saveState();
+    assertNotNull(savedState);
+
+    // call `clear` and make sure calculator cleared
+    firstCalculator.clear();
+    assertEquals("0", firstCalculator.output());
+
+    // load the saved state in the second calculator and make sure state was loaded correctly
+    secondCalculator.loadState(savedState);
+    assertEquals("5+7", secondCalculator.output());
   }
 }
