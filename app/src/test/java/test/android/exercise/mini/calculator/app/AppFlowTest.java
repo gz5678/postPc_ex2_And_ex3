@@ -147,14 +147,14 @@ public class AppFlowTest {
       button.performClick();
     }
 
-    assertEquals("40", textViewOutput.getText().toString());
+    assertEquals("7+33", textViewOutput.getText().toString());
   }
 
     @Test
   public void flowTest8(){
     // run clicks on "7+5<backspace><backspace><backspace>"
     for (View button: Arrays.asList(
-      button7, buttonPlus, button5, buttonBackspace, button4, buttonEquals
+      button7, buttonPlus, button5, buttonBackspace, buttonBackspace, buttonBackspace
     )) {
       button.performClick();
     }
