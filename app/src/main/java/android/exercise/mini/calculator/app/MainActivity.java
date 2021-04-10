@@ -65,6 +65,32 @@ public class MainActivity extends AppCompatActivity {
       });
       index++;
     }
+
+    // Set onclick listener for order buttons
+    plusButton.setOnClickListener( v -> {
+      calculator.insertPlus();
+      calcOutput.setText(calculator.output());
+    });
+
+    minusButton.setOnClickListener( v -> {
+      calculator.insertMinus();
+      calcOutput.setText(calculator.output());
+    });
+
+    equalButton.setOnClickListener( v -> {
+      calculator.insertEquals();
+      calcOutput.setText(calculator.output());
+    });
+
+    clearButton.setOnClickListener( v -> {
+      calculator.clear();
+      calcOutput.setText(calculator.output());
+    });
+
+    backspace.setOnClickListener( v -> {
+      calculator.deleteLast();
+      calcOutput.setText(calculator.output());
+    });
   }
 
   @Override
