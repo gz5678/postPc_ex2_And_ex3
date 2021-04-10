@@ -25,12 +25,6 @@ public class MainActivity extends AppCompatActivity {
       calculator = new SimpleCalculatorImpl();
     }
 
-    /*
-    TODO:
-    - find all views
-    - initial update main text-view based on calculator's output
-    - set click listeners on all buttons to operate on the calculator and refresh main text-view
-     */
 
     // Find all views
     TextView button0 = findViewById(R.id.button0);
@@ -96,15 +90,15 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    // todo: save calculator state into the bundle
     outState.putSerializable("key_saved_calc_state", calculator.saveState());
   }
 
   @Override
   protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
-    // todo: restore calculator state from the bundle, refresh main text-view from calculator's output
     Serializable state = savedInstanceState.getSerializable("key_saved_calc_state");
     calculator.loadState(state);
+    TextView calcOutput = findViewById(R.id.textViewCalculatorOutput);
+    calcOutput.setText(calculator.output());
   }
 }
